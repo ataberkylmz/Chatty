@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Chatty</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src="js/main.js"></script>
+<style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        font-family: "Raleway", sans-serif
+    }
+</style>
+
+<body style="background-color: #f1f1f1;">
+    <div>
+        <div class="sidebar animate-sidebar sidebar-block text-grey white" id="sidebar"><br>
+            <h3 class="center" style="padding-top: 16px; padding-bottom: 16px;"><b>Ata Berk YILMAZ</b></h3>
+            <a href="#" onclick="" class="sidebar-item button">John Doe</a>
+            <a href="#" onclick="" class="sidebar-item button">Marry Cool</a>
+            <a href="#" onclick="" class="sidebar-item button">Thanos</a>
+        </div>
+
+        <div class="chat-area">
+            <div class="chat">
+                <article class="message-sent">
+                    <div class="chat-message">
+                        <span class="body">SDASDAS</span>
+                        <small class="time">12:06</small>
+                    </div>
+                </article>
+                <article class="message-received">
+                    <div class="chat-message">
+                        <span class="body">SDASDAS</span>
+                        <small class="time">12:07</small>
+                    </div>
+                </article>
+            </div>
+            <div class="send-message">
+                <form onsubmit="sendMessage(event)">
+                    <input type="text" id="new-message" placeholder="Type a message">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
