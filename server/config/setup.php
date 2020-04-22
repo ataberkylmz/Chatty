@@ -1,6 +1,6 @@
 <?php
 
-include_once './databaseClass.php';
+include_once '../database/databaseClass.php';
 
 try {
     $dbClass = new databaseClass();
@@ -8,6 +8,6 @@ try {
     $path = __DIR__.'/../database/schema.sql';
     $exec = file_get_contents($path);
     $connection->exec($exec);
-} catch(PDOExcetion $err) {
+} catch(SQLiteException $err) {
     echo "[Setup Error] ".$err->getMessage();
 }

@@ -6,7 +6,7 @@ class databaseClass {
     public function getSQLiteConnection() {
         try{
             $path = __DIR__ . '/../database/database.db';
-            $this->connection = new PDO('sqlite:'.$path);
+            $this->connection = new SQLite3($path);
             $this->connection->exec('PRAGMA foreign_keys = ON;');
             return $this->connection;
         } catch (PDOException $err) {
