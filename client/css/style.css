@@ -9,10 +9,35 @@ html {
     background: #F7F7F7;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 body {
     height: 100vmin;
     margin: 0 0 0 0;
     width: 100%;
+}
+
+button {
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+    box-sizing: border-box;
+    border: none;
+    margin: 0em;
+    padding: 0px 0px;
+}
+
+button:active {
+    border: none;
 }
 
 .center {
@@ -97,10 +122,54 @@ body {
 
 .contacts h2 {
     margin: 0.5rem 0 1.5rem 5rem;
+    cursor: default!important;
 }
 
 .contacts .contact:last-child {
     margin: 0;
+}
+
+.contacts .input {
+    box-sizing: border-box;
+    flex-basis: 4rem;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0 0.5rem 0 1.5rem;
+}
+
+.contacts .input i {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: #666;
+    cursor: pointer;
+    -webkit-transition: color 200ms;
+    transition: color 200ms;
+}
+
+.contacts .input i:hover {
+    color: #333;
+}
+
+.contacts .input input {
+    border: none;
+    background-image: none;
+    background-color: white;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    border-radius: 1.125rem;
+    -webkit-box-flex: 2;
+    flex-grow: 2;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
+    font-family: Red hat Display, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.025em;
+}
+
+.contacts .input input:placeholder {
+    color: #999;
 }
 
 .chat {
@@ -238,6 +307,69 @@ body {
 
 .chat .input input:placeholder {
     color: #999;
+}
+
+.login {
+    left: -35.5vw;
+    top: -45vh;
+    position: fixed;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    width: 50vw;
+    height: 15vh;
+    z-index: 2;
+    box-sizing: border-box;
+    border-radius: 1rem;
+    background: white;
+    box-shadow: 0 0 8rem 0 rgba(0, 0, 0, 0.1), 0rem 2rem 4rem -3rem rgba(0, 0, 0, 0.5);
+}
+
+.login .input {
+    box-sizing: border-box;
+    flex-basis: 4rem;
+    flex-shrink: 0;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0 0.5rem 0 1.5rem;
+}
+
+.login .input input {
+    border: none;
+    background-image: none;
+    background-color: white;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    border-radius: 1.125rem;
+    -webkit-box-flex: 2;
+    flex-grow: 2;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
+    font-family: Red hat Display, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.025em;
+}
+
+.login .input input:placeholder {
+    color: #999;
+}
+
+.login .input i {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: #666;
+    cursor: pointer;
+    -webkit-transition: color 200ms;
+    transition: color 200ms;
+}
+
+.login .input i:hover {
+    color: #333;
 }
 
 @-webkit-keyframes typing {

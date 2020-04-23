@@ -9,7 +9,7 @@
 <script src="https://kit.fontawesome.com/a7956f57d8.js" crossorigin="anonymous"></script>
 <script src="js/main.js"></script>
 
-<body>
+<body onload="init()">
     <!-- Bunq background-->
     <div class="row">
         <div class="column color1"></div>
@@ -28,11 +28,21 @@
     <!-- Content start-->
     <div class="center">
         <!-- Sidebar-->
-        <div class="contacts">
-            <h2 style="margin: 0.5rem 0 1.5rem 0rem; text-align: center;">
+        <div class="contacts" hidden>
+            <form onsubmit="logout(event)">
+                <button type="submit">
+                    <i class="fas fa-times"></i>
+                </button>
+            </form>
+            <h2 id="username" style="margin: 0.5rem 0 1.5rem 0rem; text-align: center;">
                 {{NAME}}
             </h2>
-            </br>
+            <form class="input" onsubmit="newChat(event)">
+                <input id="newChat" placeholder="Start a new chat!" type="text" autocomplete="off" style="text-align: left;" />
+                <button type="submit">
+                    <i class="fas fa-user-plus"></i>
+                </button>
+            </form>
             <h3>
                 Contacts
             </h3>
@@ -82,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="chat">
+        <div class="chat" hidden>
             <div class="contact bar">
                 <div class="pic mabel"></div>
                 <div class="name">
@@ -118,9 +128,20 @@
                 </div>
             </div>
             <div class="input">
-                <input placeholder="Type your message here!" type="text" />
+                <input id="sendMessage" placeholder="Type your message here!" type="text" autocomplete="off" />
                 <i class="fab fa-telegram-plane"></i>
             </div>
+        </div>
+        <div class="login">
+            <h1 style="text-align: center;">
+                Enter Username
+            </h1>
+            <form class="input" onsubmit="login(event)">
+                <input id="loginName" placeholder="Enter username here!" type="text" autocomplete="off" style="text-align: center;" />
+                <button type="submit">
+                        <i class="fas fa-seedling"></i>
+                </button>
+            </form>
         </div>
     </div>
 </body>
