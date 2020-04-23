@@ -8,6 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once '../../../database/databaseClass.php';
 include_once '../../../entities/user.php';
 include_once '../../../utils/responseMessages.php';
+include_once '../../../utils/httpResponses.php';
 
 $dbClass = new databaseClass();
 $connection = $dbClass->getSQLiteConnection();
@@ -17,12 +18,12 @@ $data = json_decode(file_get_contents("php://input"));
 
 if (!isset($data->username)) {
     echo ErrorMessages::getErrorMessage("user", "invalid_key");
-    return http_response_code(400);
+    return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
 if (strlen($data->username) < 3 || strlen($data->username) > 20) {
     echo ErrorMessages::getErrorMessage("user", "length");
-    return http_response_code(400);
+    return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
 $user = new User($connection);
@@ -30,8 +31,8 @@ $user->username = $data->username;
 
 if ($user->create()) {
     echo SuccessMessages::getSuccessMessage("user", "create");
-    return http_response_code(201);
+    return http_response_code($HTTP_201_CREATED);
 } else {
     echo ErrorMessages::getErrorMessage("user", "create");
-    return http_response_code(500);
+    return http_response_code($HTTP_500_SERVER_ERROR);
 }

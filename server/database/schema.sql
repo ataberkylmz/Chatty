@@ -4,10 +4,10 @@ CREATE TABLE users(
 );
 CREATE TABLE messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    sender INTEGER NOT NULL,
-    receiver INTEGER NOT NULL,
+    sender TEXT NOT NULL,
+    receiver TEXT NOT NULL,
     body TEXT NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender) REFERENCES users (id),
-    FOREIGN KEY (receiver) REFERENCES users (id)
+    FOREIGN KEY (sender) REFERENCES users (username),
+    FOREIGN KEY (receiver) REFERENCES users (username)
 );
