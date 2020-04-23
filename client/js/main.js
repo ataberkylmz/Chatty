@@ -2,6 +2,7 @@ var chat = document.getElementById('chat');
 chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 
 var username;
+var receier;
 
 function init() {
     var cookieUsername = getCookie("username");
@@ -13,13 +14,49 @@ function init() {
     }
 }
 
+function getRequest(url, data, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if (callback && xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 400 || xhr.status === 500) {
+                return;
+            }
+            console.log(xhr.responseText);
+            callback(JSON.parse(xhr.responseText));
+        }
+    };
+
+    xhr.open('GET', url, true);
+    // set `Content-Type` header
+
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, origin');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // pass `params` to `send()` method
+    xhr.send(JSON.stringify(data));
+}
+
+function postRequest(url, data, callback) {
+
+}
+
+
 function login(event) {
     // I don't want this page to be submitted.
     event.preventDefault();
 
     // Get current login ID.
     username = document.querySelector("#loginName").value;
+
+
     setCookie("username", username, 1);
+    getRequest("http://127.0.0.1:8000/api/v1/user/read.php", { "username": username }, (response) => {
+        if (response.status === 'error') {
+            console.log(response);
+            return;
+        }
+    });
 
     displayChat();
 
@@ -59,6 +96,19 @@ function hideChat() {
 
 function newChat(event) {
     event.preventDefault();
+}
+
+function sendMessage(event) {
+    event.preventDefault();
+}
+
+function selectReceiver(event) {
+    receier = event.currentTarget.querySelector(".name").innerText;
+    console.log(receier);
+}
+
+function updateChat(rec) {
+
 }
 
 function setCookie(cookieName, cookieValue, expireDay) {
