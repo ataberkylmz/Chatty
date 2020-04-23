@@ -10,21 +10,19 @@ include_once '../../../utils/httpResponses.php';
 $dbClass = new databaseClass();
 $connection = $dbClass->getSQLiteConnection();
 
-// Get raw data instead of only form/multi part form data.
-$data = json_decode(file_get_contents("php://input"));
-
-if (!isset($data->username)) {
+// Cannot make a GET request with a body. Technically, I can, but it would be against the http standards :(
+if (!isset($_GET["username"])) {
     echo ErrorMessages::getErrorMessage("user", "invalid_key");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
-if (strlen($data->username) < 3 || strlen($data->username) > 20) {
+if (strlen($_GET["username"]) < 3 || strlen($_GET["username"]) > 20) {
     echo ErrorMessages::getErrorMessage("user", "length");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
 $user = new User($connection);
-$user->username = $data->username;
+$user->username = $_GET["username"];
 
 $res = $user->read();
 $rows = $res->fetchArray();

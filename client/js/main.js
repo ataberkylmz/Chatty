@@ -34,7 +34,7 @@ function getRequest(url, data, callback) {
     xhr.setRequestHeader('Content-Type', 'application/json');
 
     // pass `params` to `send()` method
-    xhr.send(JSON.stringify(data));
+    xhr.send();
 }
 
 function postRequest(url, data, callback) {

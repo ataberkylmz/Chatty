@@ -10,26 +10,23 @@ include_once '../../../utils/httpResponses.php';
 $dbClass = new databaseClass();
 $connection = $dbClass->getSQLiteConnection();
 
-// Get raw data instead of only form/multi part form data.
-$data = json_decode(file_get_contents("php://input"));
-
-if (!isset($data->id)) {
+if (!isset($_GET["id"])) {
     echo ErrorMessages::getErrorMessage("message", "invalid_key");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
-if (gettype($data->id) == "string") {
+if (gettype($_GET["username"]) == "string") {
     echo ErrorMessages::getErrorMessage("message", "invalid_type");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
-if ($data->id < 1) {
+if ($_GET["username"] < 1) {
     echo ErrorMessages::getErrorMessage("message", "negative_zero");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
 $message = new Message($connection);
-$message->id = $data->id;
+$message->id = $_GET["username"];
 
 $res = $message->readMessageWithID();
 $rows = $res->fetchArray();
