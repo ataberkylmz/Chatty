@@ -51,7 +51,7 @@ function login(event) {
 
 
     setCookie("username", username, 1);
-    getRequest("http://127.0.0.1:8000/api/v1/user/read.php", { "username": username }, (response) => {
+    getRequest("http://134.122.123.243/chatty/server/api/v1/user/read.php", { "username": username }, (response) => {
         if (response.status === 'error') {
             console.log(response);
             return;
