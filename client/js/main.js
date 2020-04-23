@@ -14,6 +14,10 @@ function init() {
     }
 }
 
+function objToUrl(obj) {
+    return Object.keys(obj).map(x => `${x}=${encodeURI(obj[x])}`).join('&');
+}
+
 function getRequest(url, data, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
@@ -26,9 +30,9 @@ function getRequest(url, data, callback) {
         }
     };
 
-    xhr.open('GET', url, true);
-    // set `Content-Type` header
+    xhr.open('GET', url + "?" + objToUrl(data), true);
 
+    // set `Content-Type` header
     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, origin');
     xhr.setRequestHeader('Content-Type', 'application/json');
