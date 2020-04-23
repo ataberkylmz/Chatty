@@ -104,8 +104,12 @@ function sendMessage(event) {
 }
 
 function selectReceiver(event) {
-    receier = event.currentTarget.querySelector(".name").innerText;
-    console.log(receier);
+    receiver = event.currentTarget.querySelector(".name").innerText;
+    var receiverAvatar = event.currentTarget.querySelector(".pic");
+    document.querySelector(".bar div.name").innerText = receiver;
+    document.querySelector(".bar div.pic").outerHTML = receiverAvatar.outerHTML;
+
+    updateChat(receiver)
 }
 
 function updateChat(rec) {

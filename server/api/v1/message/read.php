@@ -20,7 +20,7 @@ if (!isset($_GET["id"])) {
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
-if (gettype($_GET["username"]) == "string") {
+if (gettype($_GET["id"]) == "string") {
     echo ErrorMessages::getErrorMessage("message", "invalid_type");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
