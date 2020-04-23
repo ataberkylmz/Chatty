@@ -8,7 +8,7 @@ header('Access-Control-Allow-Headers', 'Origin, Authorization, X-Requested-With,
 header_remove('X-Powered-By'); //remove default PHP header
 
 include_once '../../../database/databaseClass.php';
-include_once '../../../entities/chat.php';
+include_once '../../../entities/chatlist.php';
 include_once '../../../utils/responseMessages.php';
 include_once '../../../utils/httpResponses.php';
 
@@ -21,23 +21,28 @@ if (!isset($_GET["sender"])) {
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
-if (strlen($_GET["sender"]) < 3 || strlen($_GET["username"]) > 20) {
+if (strlen($_GET["sender"]) < 3 || strlen($_GET["sender"]) > 20) {
     echo ErrorMessages::getErrorMessage("user", "length");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
-$chat = new Chat($connection);
+$chat = new ChatList($connection);
 $chat->sender = $_GET["sender"];
 
 $res = $chat->read();
-$rows = $res->fetchArray();
 
-// fetchArray method will return bool(false) if no match found.
-if ($rows) {
-    echo json_encode(["data" => $rows]);
-    //echo SuccessMessages::getSuccessMessage("user", "read", $options);
+$data = array();
+
+while ($rest = $res->fetchArray())
+{
+    array_push($data, $rest['receiver']);
+}
+
+// TODO: FIX THIS SHIT???!?!?!?
+if ($data) {
+    echo json_encode(["data" => $data]);
     return http_response_code($HTTP_200_OK);
 } else {
-    echo ErrorMessages::getErrorMessage("user", "read");
+    echo ErrorMessages::getErrorMessage("chatlist", "read");
     return http_response_code($HTTP_500_SERVER_ERROR);
 }

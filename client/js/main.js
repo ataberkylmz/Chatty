@@ -1,6 +1,6 @@
 const server_address = "http://127.0.0.1:8000";
 
-var chat = document.getElementById('chat');
+var chat = document.getElementById('chatlist');
 chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 
 var username;
@@ -76,7 +76,7 @@ function displayChat() {
     var usernameField = document.querySelector("#username");
     usernameField.innerHTML = username;
 
-    // Show sidebar and chat regions.
+    // Show sidebar and chatlist regions.
     var sideBar = document.querySelector(".contacts");
     sideBar.hidden = false;
     var chat = document.querySelector(".chat");
@@ -88,7 +88,7 @@ function hideChat() {
     var loginDialog = document.querySelector(".login");
     loginDialog.hidden = false;
 
-    // Show sidebar and chat regions.
+    // Show sidebar and chatlist regions.
     var sideBar = document.querySelector(".contacts");
     sideBar.hidden = true;
     var chat = document.querySelector(".chat");
@@ -109,11 +109,43 @@ function selectReceiver(event) {
     document.querySelector(".bar div.name").innerText = receiver;
     document.querySelector(".bar div.pic").outerHTML = receiverAvatar.outerHTML;
 
-    updateChat(receiver)
+    updateChat(receiver);
+}
+
+function updateChatList() {
+    const receivers = getRequest(server_address + "/api/v1/chatlist/read.php", { "sender": username }, (response) => {
+        const conversations = Object.keys(response.data).map(x => (`
+        <div class="contact" onclick="selectReceiver(event)">
+        <div class="${pics[Math.floor(Math.random() * pics.length)]}"></div>
+        <div class="name">
+            ${response.data[x]}
+        </div>
+        <div class="message">
+            Place holder :(
+        </div>
+    </div>`));
+
+        document.querySelector('#contactList').innerHTML = conversations.join('\n');
+        return;
+    });
 }
 
 function updateChat(rec) {
+    const receivers = getRequest(server_address + "/api/v1/chatlist/read.php", { "sender": username }, (response) => {
+        const conversations = Object.keys(response.data).map(x => (`
+        <div class="contact" onclick="selectReceiver(event)">
+        <div class="${pics[Math.floor(Math.random() * pics.length)]}"></div>
+        <div class="name">
+            ${response.data[x]}
+        </div>
+        <div class="message">
+            Place holder :(
+        </div>
+    </div>`));
 
+        document.querySelector('#contactList').innerHTML = conversations.join('\n');
+        return;
+    });
 }
 
 function setCookie(cookieName, cookieValue, expireDay) {

@@ -8,6 +8,18 @@
 <link rel="script" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js">
 <script src="https://kit.fontawesome.com/a7956f57d8.js" crossorigin="anonymous"></script>
 <script src="js/main.js"></script>
+<script>
+    const pics = ['pic unicorn', 'pic mabel', 'pic star'];
+
+
+    setInterval(function() {
+        updateChat(username);
+    }, 2000);
+
+    setInterval(function() {
+        updateChatList();
+    }, 5000);
+</script>
 
 <body onload="init()">
     <!-- Bunq background-->
@@ -46,49 +58,51 @@
             <h3>
                 Contacts
             </h3>
-            <div class="contact" onclick="selectReceiver(event)">
-                <div class="pic unicorn"></div>
-                <div class="name">
-                    Steve Rogers
+            <div id="contactList">
+                <div class="contact" onclick="selectReceiver(event)">
+                    <div class="pic unicorn"></div>
+                    <div class="name">
+                        Steve Rogers
+                    </div>
+                    <div class="message">
+                        That is America's ass 🇺🇸🍑
+                    </div>
                 </div>
-                <div class="message">
-                    That is America's ass 🇺🇸🍑
+                <div class="contact" onclick="selectReceiver(event)">
+                    <div class=" pic mabel "></div>
+                    <div class="name ">
+                        Tony Stark
+                    </div>
+                    <div class="message ">
+                        Uh, he's from space, he came here to steal a necklace from a wizard.
+                    </div>
                 </div>
-            </div>
-            <div class="contact" onclick="selectReceiver(event)">
-                <div class=" pic mabel "></div>
-                <div class="name ">
-                    Tony Stark
+                <div class="contact " onclick="selectReceiver(event)">
+                    <div class="pic star"></div>
+                    <div class="name">
+                        Bruce Banner
+                    </div>
+                    <div class=" message ">
+                        There's an Ant-Man *and* a Spider-Man?
+                    </div>
                 </div>
-                <div class="message ">
-                    Uh, he's from space, he came here to steal a necklace from a wizard.
+                <div class="contact" onclick="selectReceiver(event)">
+                    <div class=" pic mabel "></div>
+                    <div class="name ">
+                        Thor Odinson
+                    </div>
+                    <div class="message ">
+                        I like this one
+                    </div>
                 </div>
-            </div>
-            <div class="contact " onclick="selectReceiver(event)">
-                <div class="pic star"></div>
-                <div class="name">
-                    Bruce Banner
-                </div>
-                <div class=" message ">
-                    There's an Ant-Man *and* a Spider-Man?
-                </div>
-            </div>
-            <div class="contact" onclick="selectReceiver(event)">
-                <div class=" pic mabel "></div>
-                <div class="name ">
-                    Thor Odinson
-                </div>
-                <div class="message ">
-                    I like this one
-                </div>
-            </div>
-            <div class="contact" onclick="selectReceiver(event)">
-                <div class="pic unicorn "></div>
-                <div class="name ">
-                    Carol Danvers
-                </div>
-                <div class="message ">
-                    Hey Peter Parker, you got something for me?
+                <div class="contact" onclick="selectReceiver(event)">
+                    <div class="pic unicorn "></div>
+                    <div class="name ">
+                        Carol Danvers
+                    </div>
+                    <div class="message ">
+                        Hey Peter Parker, you got something for me?
+                    </div>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
 
 include_once "entity.php";
 
-class Chat extends Entity {
+class ChatList extends Entity {
 
     protected $table = "messages";
 
