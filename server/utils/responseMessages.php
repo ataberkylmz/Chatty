@@ -19,7 +19,7 @@ class ErrorMessages {
 
 class SuccessMessages {
 
-    public static $successMessages = [
+    private static $successMessages = [
         "user" => [
             "create" => "{\n\t\"code\": \"0\"\n\t\"message\": \"User successfully created.\"\n}",
             "read" => "{\n\t\"code\": \"1\"\n\t\"data\": {\n\t\t\"id\": {ID}\n\t\t\"username\": \"{USERNAME}\"\n\t}\n}",
