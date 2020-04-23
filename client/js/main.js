@@ -1,3 +1,5 @@
+const server_address = "http://127.0.0.1:8000";
+
 var chat = document.getElementById('chat');
 chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 
@@ -5,8 +7,7 @@ var username;
 var receier;
 
 function init() {
-    var cookieUsername = getCookie("username");
-    console.log("cookie username is: " + cookieUsername);
+    const cookieUsername = getCookie("username");
 
     if (cookieUsername != "") {
         username = cookieUsername;
@@ -22,27 +23,25 @@ function getRequest(url, data, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
         if (callback && xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 400 || xhr.status === 500) {
-                return;
-            }
-            console.log(xhr.responseText);
             callback(JSON.parse(xhr.responseText));
         }
     };
 
-    xhr.open('GET', url + "?" + objToUrl(data), true);
-
-    // set `Content-Type` header
-    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, origin');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    // pass `params` to `send()` method
+    xhr.open('GET', url + '?' + objToUrl(data), true);
     xhr.send();
 }
 
 function postRequest(url, data, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if (callback && xhr.readyState === XMLHttpRequest.DONE) {
+            callback(JSON.parse(xhr.responseText));
+        }
+    };
 
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(JSON.stringify(data));
 }
 
 
@@ -52,18 +51,16 @@ function login(event) {
 
     // Get current login ID.
     username = document.querySelector("#loginName").value;
-
-
     setCookie("username", username, 1);
-    getRequest("http://134.122.123.243/chatty/server/api/v1/user/read.php", { "username": username }, (response) => {
-        if (response.status === 'error') {
-            console.log(response);
-            return;
+
+    getRequest(server_address + "/api/v1/user/read.php", { "username": username }, (response) => {
+        if (response.code !== 1) {
+            postRequest(server_address + "/api/v1/user/create.php", { "username": username })
         }
+        return;
     });
 
     displayChat();
-
 }
 
 function logout(event) {
