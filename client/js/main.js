@@ -17,20 +17,6 @@ function objToUrl(obj) {
 }
 
 function getRequest(url, data, callback) {
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = () => {
-        if (callback && xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.responseText !== "")
-                callback(JSON.parse(xhr.responseText));
-            return;
-        }
-    };
-
-    xhr.open('GET', url + '?' + objToUrl(data), true);
-    xhr.send();
-}
-
-function getFetch(url, data, callback) {
     fetch(url + '?' + objToUrl(data), {
             method: 'GET',
             mode: 'same-origin',
@@ -57,7 +43,6 @@ function postRequest(url, data, callback) {
             console.error('Error:', error);
         });
 }
-
 
 function login(event) {
     // I don't want this page to be submitted.
