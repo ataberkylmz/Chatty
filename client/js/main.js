@@ -1,10 +1,6 @@
 const server_address = "http://127.0.0.1:8000";
 
-var chat = document.getElementById('chatlist');
-chat.scrollTop = chat.scrollHeight - chat.clientHeight;
-
 var username;
-var receier;
 
 function init() {
     const cookieUsername = getCookie("username");
@@ -23,7 +19,9 @@ function getRequest(url, data, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
         if (callback && xhr.readyState === XMLHttpRequest.DONE) {
-            callback(JSON.parse(xhr.responseText));
+            if (xhr.responseText !== "")
+                callback(JSON.parse(xhr.responseText));
+            return;
         }
     };
 
@@ -61,6 +59,7 @@ function login(event) {
     });
 
     displayChat();
+    updateChatList();
 }
 
 function logout(event) {
@@ -95,16 +94,66 @@ function hideChat() {
     chat.hidden = true;
 }
 
-function newChat(event) {
+function createNewChat(event) {
     event.preventDefault();
+
+    try {
+        var newReceiver = document.querySelector("#newChatElement").value;
+        if (newReceiver === username)
+            throw new Error('You cannot send messages to yourself.');
+        getRequest(server_address + "/api/v1/user/read.php", { "username": newReceiver }, (response) => {
+            if (response.code === 1) {
+                document.querySelector(".bar div.name").innerText = newReceiver;
+            } else {
+                window.alert("User does not exists!");
+            }
+        });
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 function sendMessage(event) {
     event.preventDefault();
+
+    var receiver = document.querySelector(".bar div.name").innerText;
+    var message = document.querySelector("#sendMessageInput").value;
+    if (message !== "") {
+
+        const data = {
+            "sender": username,
+            "receiver": receiver,
+            "body": message
+        }
+
+        fetch(server_address + "/api/v1/message/create.php", {
+                method: 'POST',
+                mode: 'cors', // no-cors, *cors, same-origin
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                redirect: 'manual',
+                body: JSON.stringify(data),
+            }).then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+                return;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+        /*postRequest(server_address + "/api/v1/message/create.php", { "sender": username, "receiver": receiver, "body": message }, (response) => {
+            console.log(response);
+            return;
+        });*/
+
+        document.querySelector("#sendMessageInput").value = "";
+    }
 }
 
 function selectReceiver(event) {
-    receiver = event.currentTarget.querySelector(".name").innerText;
+    var receiver = event.currentTarget.querySelector(".name").innerText;
     var receiverAvatar = event.currentTarget.querySelector(".pic");
     document.querySelector(".bar div.name").innerText = receiver;
     document.querySelector(".bar div.pic").outerHTML = receiverAvatar.outerHTML;
@@ -113,37 +162,39 @@ function selectReceiver(event) {
 }
 
 function updateChatList() {
-    const receivers = getRequest(server_address + "/api/v1/chatlist/read.php", { "sender": username }, (response) => {
-        const conversations = Object.keys(response.data).map(x => (`
-        <div class="contact" onclick="selectReceiver(event)">
-        <div class="${pics[Math.floor(Math.random() * pics.length)]}"></div>
-        <div class="name">
-            ${response.data[x]}
-        </div>
-        <div class="message">
-            Place holder :(
-        </div>
-    </div>`));
+    getRequest(server_address + "/api/v1/chatlist/read.php", { "sender": username }, (response) => {
+        if (response.data !== undefined) {
+            const conversations = Object.keys(response.data).map(x => (`
+            <div class="contact" onclick="selectReceiver(event)">
+            <div class="${pics[Math.floor(Math.random() * pics.length)]}"></div>
+            <div class="name">
+                ${response.data[x]}
+            </div>
+            <div class="message">
+                Place holder :(
+            </div>
+        </div>`));
 
-        document.querySelector('#contactList').innerHTML = conversations.join('\n');
+            document.querySelector('#contactList').innerHTML = conversations.join('\n');
+        }
+
         return;
     });
 }
 
-function updateChat(rec) {
-    const receivers = getRequest(server_address + "/api/v1/chatlist/read.php", { "sender": username }, (response) => {
-        const conversations = Object.keys(response.data).map(x => (`
-        <div class="contact" onclick="selectReceiver(event)">
-        <div class="${pics[Math.floor(Math.random() * pics.length)]}"></div>
-        <div class="name">
-            ${response.data[x]}
-        </div>
-        <div class="message">
-            Place holder :(
-        </div>
-    </div>`));
+function updateChat(receiver) {
+    getRequest(server_address + "/api/v1/messages/read.php", { "sender": username, "receiver": receiver }, (response) => {
+        if (response.data !== undefined) {
+            console.log(response);
+            const conversations = Object.keys(response.data).map(x => (`
+        <div class="message${response.data[x]["sender"] === username ? " sender" : ""}">
+            ${response.data[x]["body"]}
+        </div>`));
 
-        document.querySelector('#contactList').innerHTML = conversations.join('\n');
+            var chatArea = document.querySelector('#chat')
+            chatArea.innerHTML = conversations.join('\n');
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
         return;
     });
 }
