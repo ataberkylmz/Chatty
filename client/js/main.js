@@ -30,7 +30,7 @@ function getRequest(url, data, callback) {
     xhr.send();
 }
 
-function getFetch(url, callback) {
+function getFetch(url, data, callback) {
     fetch(url + '?' + objToUrl(data), {
             method: 'GET',
             mode: 'same-origin',
