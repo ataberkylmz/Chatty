@@ -30,15 +30,11 @@ $user = new User($connection);
 $user->username = $_GET["username"];
 
 $res = $user->read();
-$rows = $res->fetchArray();
+$rows = $res->fetchArray(SQLITE3_ASSOC);
 
 // fetchArray method will return bool(false) if no match found.
 if ($rows) {
-    $options = [
-        "ID" => $rows[0],
-        "USERNAME" => $rows[1]
-    ];
-    echo SuccessMessages::getSuccessMessage("user", "read", $options);
+    echo SuccessMessages::getSuccessMessage("user", "read", $rows);
     return http_response_code($HTTP_200_OK);
 } else {
     echo ErrorMessages::getErrorMessage("user", "read");

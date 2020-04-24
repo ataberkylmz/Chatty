@@ -15,15 +15,14 @@ include_once '../../../utils/httpResponses.php';
 $dbClass = new databaseClass();
 $connection = $dbClass->getSQLiteConnection();
 
-// TODO: FIX THOSE LINES ADD NEW ERROR MESSAGES ETC.
 // Cannot make a GET request with a body. Technically, I can, but it would be against the http standards :(
 if (!isset($_GET["sender"]) || !isset($_GET["receiver"])) {
-    echo ErrorMessages::getErrorMessage("user", "invalid_key");
+    echo ErrorMessages::getErrorMessage("messages", "invalid_key");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
 if (strlen($_GET["sender"]) < 3 || strlen($_GET["sender"]) > 20 || strlen($_GET["receiver"]) < 3 || strlen($_GET["receiver"]) > 20) {
-    echo ErrorMessages::getErrorMessage("user", "length");
+    echo ErrorMessages::getErrorMessage("messages", "length");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
@@ -35,16 +34,15 @@ $res = $chat->read();
 
 $data = array();
 
-while ($rest = $res->fetchArray(1))
+while ($rest = $res->fetchArray(SQLITE3_ASSOC))
 {
     array_push($data, $rest);
 }
 
-// TODO: FIX THIS SHIT???!?!?!?
 if ($data) {
-    echo json_encode(["data" => $data]);
+    echo SuccessMessages::getSuccessMessage("messages", "read", $data);
     return http_response_code($HTTP_200_OK);
 } else {
-    echo ErrorMessages::getErrorMessage("user", "read");
+    echo ErrorMessages::getErrorMessage("messages", "read");
     return http_response_code($HTTP_500_SERVER_ERROR);
 }

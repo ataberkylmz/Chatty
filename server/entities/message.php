@@ -19,23 +19,10 @@ class Message extends Entity {
         return $stmt->execute();
     }
 
-    function readMessageWithID() {
+    function read() {
         $stmt = $this->connection->prepare("SELECT * FROM $this->table WHERE id=:id");
         $stmt->bindValue(':id', $this->id, SQLITE3_INTEGER);
 
         return $stmt->execute();
-    }
-
-
-    function read() {
-
-    }
-
-    function update() {
-
-    }
-
-    function delete() {
-
     }
 }

@@ -20,31 +20,19 @@ if (!isset($_GET["id"])) {
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
-if (gettype($_GET["id"]) == "string") {
-    echo ErrorMessages::getErrorMessage("message", "invalid_type");
-    return http_response_code($HTTP_400_BAD_REQUEST);
-}
-
-if ($_GET["username"] < 1) {
+if ($_GET["id"] < 1) {
     echo ErrorMessages::getErrorMessage("message", "negative_zero");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
 $message = new Message($connection);
-$message->id = $_GET["username"];
+$message->id = $_GET["id"];
 
-$res = $message->readMessageWithID();
-$rows = $res->fetchArray();
+$res = $message->read();
+$rows = $res->fetchArray(SQLITE3_ASSOC);
 
-// fetchArray method will return bool(false) if no match found.
 if ($rows) {
-    $options = [
-        "ID" => $rows[0],
-        "SENDER" => $rows[1],
-        "RECEIVER" => $rows[2],
-        "BODY" => $rows[3],
-    ];
-    echo SuccessMessages::getSuccessMessage("message", "readWithID", $options);
+    echo SuccessMessages::getSuccessMessage("message", "read", $rows);
     return http_response_code($HTTP_200_OK);
 } else {
     echo ErrorMessages::getErrorMessage("message", "read");

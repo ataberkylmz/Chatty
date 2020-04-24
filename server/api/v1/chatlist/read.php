@@ -15,15 +15,14 @@ include_once '../../../utils/httpResponses.php';
 $dbClass = new databaseClass();
 $connection = $dbClass->getSQLiteConnection();
 
-// TODO: FIX THOSE LINES
 // Cannot make a GET request with a body. Technically, I can, but it would be against the http standards :(
 if (!isset($_GET["sender"])) {
-    echo ErrorMessages::getErrorMessage("user", "invalid_key");
+    echo ErrorMessages::getErrorMessage("chatlist", "invalid_key");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
 if (strlen($_GET["sender"]) < 3 || strlen($_GET["sender"]) > 20) {
-    echo ErrorMessages::getErrorMessage("user", "length");
+    echo ErrorMessages::getErrorMessage("chatlist", "length");
     return http_response_code($HTTP_400_BAD_REQUEST);
 }
 
@@ -39,9 +38,8 @@ while ($rest = $res->fetchArray())
     array_push($data, $rest['receiver']);
 }
 
-// TODO: FIX THIS SHIT???!?!?!?
 if ($data) {
-    echo json_encode(["data" => $data]);
+    echo SuccessMessages::getSuccessMessage("chatlist", "read", $data);
     return http_response_code($HTTP_200_OK);
 } else {
     echo ErrorMessages::getErrorMessage("chatlist", "read");
