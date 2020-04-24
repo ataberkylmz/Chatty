@@ -11,8 +11,7 @@ include_once '../../../database/databaseClass.php';
 include_once '../../../entities/messages.php';
 include_once '../../../utils/responseMessages.php';
 include_once '../../../utils/httpResponses.php';
-read.php", { "sender": username }, (response) => {
-        if (response.data !== undefined) {
+
 $dbClass = new databaseClass();
 $connection = $dbClass->getSQLiteConnection();
 
