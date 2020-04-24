@@ -30,20 +30,19 @@ function getRequest(url, data, callback) {
     xhr.send();
 }
 
-function postRequest(url, data, callback) {
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = () => {
-        if (callback && xhr.readyState === XMLHttpRequest.DONE) {
-            callback(JSON.parse(xhr.responseText));
-        }
-    };
-
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(JSON.stringify(data));
+function getFetch(url, callback) {
+    fetch(url + '?' + objToUrl(data), {
+            method: 'GET',
+            mode: 'same-origin',
+            redirect: 'manual'
+        }).then((response) => response.json())
+        .then((data) => callback(data))
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
-function postFetch(url, data, callback) {
+function postRequest(url, data, callback) {
     fetch(url, {
             method: 'POST',
             mode: 'same-origin',
@@ -68,12 +67,21 @@ function login(event) {
     username = document.querySelector("#loginName").value;
     setCookie("username", username, 1);
 
-    getRequest(server_address + "/api/v1/user/read.php", { "username": username }, (response) => {
+    getFetch(server_address + "/api/v1/user/read.php", { "username": username }, (response) => {
         if (response.code !== 1) {
-            postFetch(server_address + "/api/v1/user/create.php", { "username": username });
+            postRequest(server_address + "/api/v1/user/create.php", { "username": username });
         }
         return;
     });
+
+    /*
+    getRequest(server_address + "/api/v1/user/read.php", { "username": username }, (response) => {
+        if (response.code !== 1) {
+            postRequest(server_address + "/api/v1/user/create.php", { "username": username });
+        }
+        return;
+    });
+    */
 
     displayChat();
     updateChatList();
@@ -144,7 +152,7 @@ function sendMessage(event) {
             "body": message
         }
 
-        postFetch(server_address + "/api/v1/message/create.php",
+        postRequest(server_address + "/api/v1/message/create.php",
             data,
             (res) => {
                 updateChat(receiver);
@@ -152,11 +160,6 @@ function sendMessage(event) {
                 var chatArea = document.querySelector('#chat')
                 chatArea.scrollTop = chatArea.scrollHeight;
             })
-
-        /*postRequest(server_address + "/api/v1/message/create.php", { "sender": username, "receiver": receiver, "body": message }, (response) => {
-            console.log(response);
-            return;
-        });*/
 
         document.querySelector("#sendMessageInput").value = "";
     }
