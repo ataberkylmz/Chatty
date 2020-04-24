@@ -8,6 +8,7 @@ function init() {
 
     if (cookieUsername != "") {
         username = cookieUsername;
+        updateChatList();
         displayChat();
     }
 }

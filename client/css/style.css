@@ -414,6 +414,10 @@ button:active {
     background-image: url("../media/default-avatar-star.jpg");
 }
 
+.pic.rick {
+    background-image: url("../media/default-avatar-pickle-rick.png");
+}
+
 .column {
     float: left;
     width: 8.33%;
