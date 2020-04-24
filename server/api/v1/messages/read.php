@@ -32,8 +32,10 @@ $chat->receiver = $_GET["receiver"];
 
 $res = $chat->read();
 
+// initialize an array to store all results.
 $data = array();
 
+// Iterate over fetchArray to collect all results.
 while ($rest = $res->fetchArray(SQLITE3_ASSOC))
 {
     array_push($data, $rest);

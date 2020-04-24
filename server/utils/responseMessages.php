@@ -2,6 +2,9 @@
 
 class ErrorMessages {
 
+    /**
+     * @var string[][] REST Error constants.
+     */
     private static $restErrors = [
         "user" => [
             "invalid_key" => "{\n\t\"code\": 2,\n\t\"message\": \"Invalid/Unsupported key provided\"\n}",
@@ -30,6 +33,12 @@ class ErrorMessages {
         ]
     ];
 
+    /**
+     * @param $location "user", "message", "messages", "chatlist"
+     * @param $type "invalid_key", "length", "create", "read", etc...
+     *
+     * @return string
+     */
     public static function getErrorMessage($location, $type) {
         return self::$restErrors[$location][$type];
     }
@@ -37,6 +46,9 @@ class ErrorMessages {
 
 class SuccessMessages {
 
+    /**
+     * @var array REST Success constants.
+     */
     private static $successMessages = [
         "user" => [
             "create" => "{\n\t\"code\": 0,\n\t\"message\": \"User successfully created.\"\n}",
@@ -54,6 +66,13 @@ class SuccessMessages {
         ]
     ];
 
+    /**
+     * @param $location "user", "message", "messages", "chatlist"
+     * @param $type "create", "read"
+     * @param null $data Optional data to return
+     *
+     * @return false|mixed|string No illegal argument check!!!
+     */
     public static function getSuccessMessage($location, $type, $data = NULL) {
 
         if ($data != NULL) {
