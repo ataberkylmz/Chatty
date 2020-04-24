@@ -52,21 +52,12 @@ function login(event) {
     username = document.querySelector("#loginName").value;
     setCookie("username", username, 1);
 
-    getFetch(server_address + "/api/v1/user/read.php", { "username": username }, (response) => {
-        if (response.code !== 1) {
-            postRequest(server_address + "/api/v1/user/create.php", { "username": username });
-        }
-        return;
-    });
-
-    /*
     getRequest(server_address + "/api/v1/user/read.php", { "username": username }, (response) => {
         if (response.code !== 1) {
             postRequest(server_address + "/api/v1/user/create.php", { "username": username });
         }
         return;
     });
-    */
 
     displayChat();
     updateChatList();
