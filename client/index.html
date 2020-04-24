@@ -12,8 +12,8 @@
     const pics = ['pic unicorn', 'pic mabel', 'pic star'];
 
     setInterval(function() {
-        updateChatList();
-    }, 5000);
+        updateChat(receiver);
+    }, 1000);
 </script>
 
 <body onload="init()">
@@ -60,36 +60,13 @@
             <div class="contact bar">
                 <div class="pic mabel "></div>
                 <div class="name ">
-                    Tony Stark
+                    Pickle Rick
                 </div>
                 <div class="seen ">
-                    Today at 12:56
+                    Today at 04:20
                 </div>
             </div>
             <div class="messages" id="chat">
-                <div class="time">
-                    Today at 11:41
-                </div>
-                <div class="message sender">
-                    Hey, man! What's up, Mr Stark? 👋
-                </div>
-                <div class="message">
-                    Kid, where'd you come from?
-                </div>
-                <div class="message sender">
-                    Field trip! 🤣
-                </div>
-                <div class="message sender">
-                    Uh, what is this guy's problem, Mr. Stark? 🤔
-                </div>
-                <div class="message">
-                    Uh, he's from space, he came here to steal a necklace from a wizard.
-                </div>
-                <div class="message">
-                    <div class="typing typing-1 "></div>
-                    <div class="typing typing-2 "></div>
-                    <div class="typing typing-3 "></div>
-                </div>
             </div>
             <form class="input" onsubmit="sendMessage(event)">
                 <input id="sendMessageInput" placeholder="Type your message here!" type="text" autocomplete="off" />

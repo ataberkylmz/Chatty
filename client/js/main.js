@@ -1,6 +1,7 @@
 const server_address = "http://127.0.0.1:8000";
 
 var username;
+var receiver;
 
 function init() {
     const cookieUsername = getCookie("username");
@@ -104,6 +105,7 @@ function createNewChat(event) {
         getRequest(server_address + "/api/v1/user/read.php", { "username": newReceiver }, (response) => {
             if (response.code === 1) {
                 document.querySelector(".bar div.name").innerText = newReceiver;
+                updateChatList();
             } else {
                 window.alert("User does not exists!");
             }
@@ -116,7 +118,7 @@ function createNewChat(event) {
 function sendMessage(event) {
     event.preventDefault();
 
-    var receiver = document.querySelector(".bar div.name").innerText;
+    receiver = document.querySelector(".bar div.name").innerText;
     var message = document.querySelector("#sendMessageInput").value;
     if (message !== "") {
 
@@ -128,7 +130,7 @@ function sendMessage(event) {
 
         fetch(server_address + "/api/v1/message/create.php", {
                 method: 'POST',
-                mode: 'cors', // no-cors, *cors, same-origin
+                mode: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -136,8 +138,8 @@ function sendMessage(event) {
                 body: JSON.stringify(data),
             }).then((response) => response.json())
             .then((data) => {
+                updateChat(receiver);
                 console.log('Success:', data);
-                return;
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -153,7 +155,7 @@ function sendMessage(event) {
 }
 
 function selectReceiver(event) {
-    var receiver = event.currentTarget.querySelector(".name").innerText;
+    receiver = event.currentTarget.querySelector(".name").innerText;
     var receiverAvatar = event.currentTarget.querySelector(".pic");
     document.querySelector(".bar div.name").innerText = receiver;
     document.querySelector(".bar div.pic").outerHTML = receiverAvatar.outerHTML;
