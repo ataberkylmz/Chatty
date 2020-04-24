@@ -1,4 +1,4 @@
-const server_address = "http://127.0.0.1:8000";
+const server_address = "http://134.122.123.243/Chatty/server";
 
 var username;
 var receiver;
@@ -41,6 +41,22 @@ function postRequest(url, data, callback) {
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(JSON.stringify(data));
+}
+
+function postFetch(url, data, callback) {
+    fetch(url, {
+            method: 'POST',
+            mode: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            redirect: 'manual',
+            body: JSON.stringify(data),
+        }).then((response) => response.json())
+        .then((data) => callback(data))
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 
@@ -128,23 +144,14 @@ function sendMessage(event) {
             "body": message
         }
 
-        fetch(server_address + "/api/v1/message/create.php", {
-                method: 'POST',
-                mode: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                redirect: 'manual',
-                body: JSON.stringify(data),
-            }).then((response) => response.json())
-            .then((data) => {
+        postFetch(server_address + "/api/v1/message/create.php",
+            data,
+            (res) => {
                 updateChat(receiver);
                 updateChatList();
-                console.log('Success:', data);
+                var chatArea = document.querySelector('#chat')
+                chatArea.scrollTop = chatArea.scrollHeight;
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
 
         /*postRequest(server_address + "/api/v1/message/create.php", { "sender": username, "receiver": receiver, "body": message }, (response) => {
             console.log(response);
