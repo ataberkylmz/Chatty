@@ -139,6 +139,7 @@ function sendMessage(event) {
             }).then((response) => response.json())
             .then((data) => {
                 updateChat(receiver);
+                updateChatList();
                 console.log('Success:', data);
             })
             .catch((error) => {
