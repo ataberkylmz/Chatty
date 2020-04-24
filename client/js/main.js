@@ -70,7 +70,7 @@ function login(event) {
 
     getRequest(server_address + "/api/v1/user/read.php", { "username": username }, (response) => {
         if (response.code !== 1) {
-            postRequest(server_address + "/api/v1/user/create.php", { "username": username })
+            postFetch(server_address + "/api/v1/user/create.php", { "username": username });
         }
         return;
     });
@@ -195,7 +195,6 @@ function updateChatList() {
 function updateChat(receiver) {
     getRequest(server_address + "/api/v1/messages/read.php", { "sender": username, "receiver": receiver }, (response) => {
         if (response.data !== undefined) {
-            console.log(response);
             const conversations = Object.keys(response.data).map(x => (`
         <div class="message${response.data[x]["sender"] === username ? " sender" : ""}">
             ${response.data[x]["body"]}
